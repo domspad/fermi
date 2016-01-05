@@ -1,0 +1,4 @@
+name,var,low90,high90,guess,actual,source
+Total number of airports in US,num_airports,10,300,30,50,https://www.google.com
+Average number of flights per airport-day,flight_per_airportday,10,300,60,30,https://www.google.com
+Average number of passengers per flight,ppl_per_flight,30,225,100,30,www.google.com

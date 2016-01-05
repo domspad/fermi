@@ -1,0 +1,6 @@
+{"name": "number of people who fly in one day in US",
+		  "var_name": "num_ppl_fly_per_day",
+		  "expression_str": "num_airports * flight_per_airportday * ppl_per_flight",
+		  "actual": 2320000,
+		  "source": "http://www.rita.dot.gov/bts/press_releases/bts015_15"
+}

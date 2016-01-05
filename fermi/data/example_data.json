@@ -1,0 +1,7 @@
+{"name": "number of people in the air at this moment",
+		  "var_name": "num_ppl_in_air",
+		  "expression_str": "50 * airport_per_state * flight_per_airport * ppl_per_flight",
+		  "actual": 100000,
+		  "source": "www.google.com",
+		  "notes": "http://sos.noaa.gov/Datasets/dataset.php?id=44 -- 28,537 domestic flights per day, https://en.wikipedia.org/wiki/List_of_airports_in_the_United_States 358 primary airports in US"
+}
