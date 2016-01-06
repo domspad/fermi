@@ -14,7 +14,7 @@ class Estimate:
 	actual
 	"""
 
-	def __init__(self, name='', var_name='a', component_dict=None, expression_str='2',actual=100, source='www.blah.com'):
+	def __init__(self, name='', var_name='a', component_dict=None, expression_str='2',actual=100, source='www.blah.com', **kwargs):
 		self.name = name
 		self.var_name = var_name
 		self.expression_str = expression_str
@@ -49,11 +49,31 @@ class Estimate:
 		"""
 		fig, ax = plt.subplots()
 		MIN, MAX = min(self.data), max(self.data)
-		self.data.hist(ax=ax,bins = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), 50))
+		res = self.data.hist(ax=ax,bins = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), 50))
+		# from ipdb import set_trace;set_trace()
 		ax.set_xscale('log')
-		ax.axvline(self.data.median())
+		median = self.data.median()
+		ax.set_title(self.name)
+		ax.axvline(median)
+		ax.axvline(self.actual,color='red')
+		plt.annotate('median: {:.2f}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
+		# ylow,yhigh = ax.get_ylim()
+		# xlow,xhigh = ax.get_xlim()
+		# yan = ylow + (0.85*(yhigh - ylow))
+		# xan = xlow + (0.25*(xhigh - xlow))
+		# ax.annotate('median: {}'.format(median), xy=(median, yan), xytext=(xan,yan),
+		# 			arrowprops=dict(facecolor='black', shrink=0.05))
 
 		fig, ax = plt.subplots()
 		self.data.plot(ax=ax,kind='kde',logx=True)
+		ax.set_title(self.name)
 		ax.axvline(self.data.median())
+		ax.axvline(self.actual,color='red')
+		plt.annotate('median: {:.2f}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
+		# ylow,yhigh = ax.get_ylim()
+		# xlow,xhigh = ax.get_xlim()
+		# yan = ylow + (0.85*(yhigh - ylow))
+		# xan = xlow + (0.25*(xhigh - xlow))
+		# ax.annotate('actual: {}'.format(self.actual), xy=(self.actual, yan), xytext=(xan,yan),
+		# 			arrowprops=dict(facecolor='black', shrink=0.05))
 		plt.show(block=True)
