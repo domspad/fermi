@@ -1,0 +1,4 @@
+name,var,low90,high90,guess,actual,source
+Number of pages in average NYT (Sunday),num_newspage,20,70,33,36,google.com
+Number of average novel pages per average NYT news page,num_bk_page_per_newspage,3,10,4,2.7,google.com
+Number of average novel pages per novel,num_bk_page_per_book,150,400,225,170,google.com

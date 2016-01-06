@@ -1,0 +1,7 @@
+{"name": "number of average novels in sunday NY Times",
+		  "var_name": "novels_per_nyt",
+		  "expression_str": "num_newspage * num_bk_page_per_newspage / num_bk_page_per_book",
+		  "actual": 3.5,
+		  "source": "https://www.quora.com/How-many-words-are-in-an-average-print-edition-of-the-New-York-Times",
+		  "notes": "280000 words in sunday edition, 80000 avg novel http://thewritepractice.com/word-count/"
+}
