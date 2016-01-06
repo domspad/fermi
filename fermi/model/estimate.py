@@ -2,6 +2,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from math import log10, floor
+
+def round_sig(x, sig=2):
+	return round(x, sig-int(floor(log10(x)))-1)
 
 class Estimate:
 	"""
@@ -52,11 +56,11 @@ class Estimate:
 		res = self.data.hist(ax=ax,bins = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), 50))
 		# from ipdb import set_trace;set_trace()
 		ax.set_xscale('log')
-		median = self.data.median()
+		median = round_sig(self.data.median())
 		ax.set_title(self.name)
 		ax.axvline(median)
 		ax.axvline(self.actual,color='red')
-		plt.annotate('median: {:.2f}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
+		plt.annotate('median: {}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
 		# ylow,yhigh = ax.get_ylim()
 		# xlow,xhigh = ax.get_xlim()
 		# yan = ylow + (0.85*(yhigh - ylow))
@@ -69,7 +73,7 @@ class Estimate:
 		ax.set_title(self.name)
 		ax.axvline(self.data.median())
 		ax.axvline(self.actual,color='red')
-		plt.annotate('median: {:.2f}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
+		plt.annotate('median: {}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
 		# ylow,yhigh = ax.get_ylim()
 		# xlow,xhigh = ax.get_xlim()
 		# yan = ylow + (0.85*(yhigh - ylow))
