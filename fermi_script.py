@@ -7,9 +7,10 @@ import json
 from fermi.model.component import Component
 from fermi.model.estimate import Estimate
 
-FNAME = '/fermi/data/novels_per_nyt'
-INPUT_FILE = os.path.abspath('.') + FNAME + '.csv'
-INPUT_FILE_ESTIMATE = os.path.abspath('.') + FNAME + '.json'
+FNAME = 'ppl_fly_per_day'
+
+INPUT_FILE = os.path.abspath('.') + '/fermi/data/' + FNAME + '.csv'
+INPUT_FILE_ESTIMATE = os.path.abspath('.') + '/fermi/data/' + FNAME + '.json'
 
 # read in components
 with open(INPUT_FILE, 'r') as f:
