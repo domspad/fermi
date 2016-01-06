@@ -1,0 +1,6 @@
+{"name": "Number of new passenger cars sold each year in US",
+		  "var_name": "num_cars_sold",
+		  "expression_str": "num_car_owners * frac_buy_new_car_per_year",
+		  "actual": 5500000,
+		  "source": "http://lesswrong.com/lw/h5e/fermi_estimates/"
+}
