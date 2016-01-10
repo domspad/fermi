@@ -15,6 +15,8 @@ class Variable(HasTraits):
 	confidence_level = Float(0.90)
 
 
-v = Variable()
+if __name__ == '__main__':
 
-v.configure_traits()
+	v = Variable()
+
+	v.configure_traits()
