@@ -4,13 +4,13 @@ import pandas as pd
 import os
 import json
 
-from fermi.model.component import Component
-from fermi.model.estimate import Estimate
+from fermi2.model.component import Component
+from fermi2.model.estimate import Estimate
 
 FNAME = 'num_cars_sold'
 
-INPUT_FILE = os.path.abspath('.') + '/fermi/data/' + FNAME + '.csv'
-INPUT_FILE_ESTIMATE = os.path.abspath('.') + '/fermi/data/' + FNAME + '.json'
+INPUT_FILE = os.path.abspath('.') + '/fermi2/data/' + FNAME + '.csv'
+INPUT_FILE_ESTIMATE = os.path.abspath('.') + '/fermi2/data/' + FNAME + '.json'
 
 # read in components
 with open(INPUT_FILE, 'r') as f:
