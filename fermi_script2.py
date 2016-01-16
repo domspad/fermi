@@ -7,7 +7,7 @@ import json
 from fermi2.model.component import Component
 from fermi2.model.estimate import Estimate
 
-FNAME = 'num_cars_sold'
+FNAME = 'microsoft_word_man_months'
 
 INPUT_FILE = os.path.abspath('.') + '/fermi2/data/' + FNAME + '.csv'
 INPUT_FILE_ESTIMATE = os.path.abspath('.') + '/fermi2/data/' + FNAME + '.json'
