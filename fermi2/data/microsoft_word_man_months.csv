@@ -1,0 +1,5 @@
+name,var,low90,high90,guess,actual,source
+fjdskal,kbi_man_months,3,12,6,6,jdskl
+fjdskl,fact_more_word_funcs,3,30,20,23,fjdskl
+fact_low_code,fact_low_code,5,15,10,11.1,fjdskl
+fact_complexity_nonlin,fact_complexity_nonlin,1.5,5,3,3,jfdskl
