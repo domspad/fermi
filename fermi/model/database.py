@@ -21,6 +21,7 @@ class EstimateProxy(HasTraits):
 
 class Database(HasTraits):
 
+	name = Str('Fermis')
 	estimates = List(Instance(EstimateProxy))
 
 	def __init__(self):
@@ -63,9 +64,9 @@ def load_pickle():
 
 if __name__ == '__main__':
 
-	database = Database()
+	# database = Database()
 
-	database.pickle()
+	# database.pickle()
 
 	db2 = load_pickle()
 
