@@ -23,38 +23,41 @@ class Database(HasTraits):
 
 	name = Str('Fermis')
 	estimates = List(Instance(EstimateProxy))
+	_file = Str(DATABASE_FILE)
+	_pickle_file = Str(PICKLE_FILE)
 
 	def __init__(self):
-		self.load_json_file()
+		pass
+		# self.load_json_file()
 
-	def load_json_file(self):
-		estimates = []
+	# def load_json_file(self):
+	# 	estimates = []
 
-		# load json
-		with open(DATABASE_FILE, 'r') as f:
-			data = json.load(f)
+	# 	# load json
+	# 	with open(DATABASE_FILE, 'r') as f:
+	# 		data = json.load(f)
 
-		for estimate_data in data:
+	# 	for estimate_data in data:
 
-			# get vars
-			variables = [VariableProxy(**var_data)
-						 for var_data in estimate_data['variables']]
-			estimate = EstimateProxy()
+	# 		# get vars
+	# 		variables = [VariableProxy(**var_data)
+	# 					 for var_data in estimate_data['variables']]
+	# 		estimate = EstimateProxy()
 
-			# append new estimate
-			estimate_load_data = estimate_data
-			estimate_load_data['variables'] = variables
-			estimates.append(EstimateProxy(**estimate_load_data))
+	# 		# append new estimate
+	# 		estimate_load_data = estimate_data
+	# 		estimate_load_data['variables'] = variables
+	# 		estimates.append(EstimateProxy(**estimate_load_data))
 
-		self.estimates = estimates
+	# 	self.estimates = estimates
 
-	def save_to_file(self):
-		# overwrite data file!
-		with open(DATABASE_FILE, 'w') as f:
-			json.dump(f)
+	# def save_to_file(self):
+	# 	# overwrite data file!
+	# 	with open(self._file, 'w') as f:
+	# 		json.dump(f)
 
 	def pickle(self):
-		with open(PICKLE_FILE,'w') as f:
+		with open(self._pickle_file,'w') as f:
 			pickle.dump(self,f)
 
 
