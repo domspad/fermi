@@ -19,6 +19,14 @@ from fermi.model.database import Database, load_pickle, EstimateProxy, VariableP
 # do_save_db = Action(name='Save',
 # 					action='save_db')
 
+from traits.api import Event
+# class EstimateEditor(TableEditor):
+	
+# 	dclick = Event
+
+# 	def _on_dclick(self, index):
+# 		import ipdb; ipdb.set_trace()
+# 		print "cell {}".format(index)
 
 
 class DatabaseView(HasTraits):
@@ -39,7 +47,7 @@ class DatabaseView(HasTraits):
 			],
 			# menu = Menu(handler.do_edit_selected),
 			auto_size=True,
-			editable=False 	#Can still select rows BUT not add them
+			editable=False, 	#Can still select rows BUT not add them
 			# row_factory=True #allows you to "Add new item"
 		)
 
@@ -64,7 +72,6 @@ class DatabaseView(HasTraits):
 
 	def _delete_button_fired(self, event):
 		print "Deleting selected item"
-		# import ipdb; ipdb.set_trace()
 
 	def _edit_button_fired(self, event):
 		print "view-defined button fired"
