@@ -93,89 +93,94 @@ def load_pickle():
 
 
 # Major library imports
+import numpy as np
 from numpy import exp, linspace, sqrt
 from scipy.special import gamma
 # Enthought library imports
 from enable.api import Component, ComponentEditor
-from traits.api import HasTraits, Instance
-from traitsui.api import Item, Group, View
+from traits.api import HasTraits, Instance, Int, Dict, List, Any, Str
+from traitsui.api import Item, Group, View, VGroup
 # Chaco imports
 from chaco.api import ArrayPlotData, Plot
 from chaco.tools.api import PanTool, ZoomTool
-import numpy as np
-
-# class FermiPlot(HasTraits):
-
-# 	plot = Plot
-
-# 	data = ArrayPlotData
-
-# 	def _plot_default(self):
-
-# 		MIN, MAX = min(self.data), max(self.data)
-# 		x = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), 50)
-# 		res = self.data.hist(ax=ax,bins = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), 50))
 
 
+class FermiPlot(HasTraits):
 
-# def _create_plot_comp():
-
-# 	plot.index_scale = 'log'
-
-def _create_plot_component():
-
-	# Create some x-y data series to plot
-	x = linspace(1.0, 8.0, 200)
-	pd = ArrayPlotData(index = x)
-	pd.set_data("y0", sqrt(x))
-	pd.set_data("y1", x)
-	pd.set_data("y2", x**2)
-	pd.set_data("y3", exp(x))
-	pd.set_data("y4", gamma(x))
-	pd.set_data("y5", x**x)
-
-	# Create some line plots of some of the data
-	plot = Plot(pd)
-	plot.plot(("index", "y0"), line_width=2, name="sqrt(x)", color="purple")
-	plot.plot(("index", "y1"), line_width=2, name="x", color="blue")
-	plot.plot(("index", "y2"), line_width=2, name="x**2", color="green")
-	plot.plot(("index", "y3"), line_width=2, name="exp(x)", color="gold")
-	plot.plot(("index", "y4"), line_width=2, name="gamma(x)",color="orange")
-	plot.plot(("index", "y5"), line_width=2, name="x**x", color="red")
-
-	# Set the value axis to display on a log scale
-	plot.value_scale = "log"
-
-	# Tweak some of the plot properties
-	plot.title = "Log Plot"
-	plot.padding = 50
-	plot.legend.visible = True
-
-	# Attach some tools to the plot
-	plot.tools.append(PanTool(plot))
-	zoom = ZoomTool(component=plot, tool_mode="box", always_on=False)
-	plot.overlays.append(zoom)
-
-	return plot
-
-# Attributes to use for the plot view.
-size=(900,500)
-title="Basic x-y log plots"
-
-class Demo(HasTraits):
 	plot = Instance(Component)
 
-	traits_view = View(
-					Group(
-						Item('plot', editor=ComponentEditor(size=size),
-							 show_label=False),
-						orientation = "vertical"),
-					resizable=True, title=title
-					)
+	data = ArrayPlotData
+
+	n_bins = Int(50)
+
+	n_sims = Int(3000)
+
+	_samples = Dict
+
+	estimates = Any
+
+	def __samples_default(self):
+		_samples = {}
+		for estimate in self.estimates:
+			name_base = estimate.name
+			for ii, expr in enumerate(estimate.expressions):
+				name = name_base + '.' + str(ii)
+				samples = estimate.sample(n=self.n_sims, expression_no=ii)
+				_samples[name] = samples
+		return _samples
+
+	def _get_minmax(self):
+		return 10 ** 0, 10 ** 6
+
+	def _data_default(self):
+		data = ArrayPlotData()
+		
+		# set bins
+			# take MIN, MAX of samples as max
+		MIN, MAX = self._get_minmax()
+		x = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), self.n_bins)
+		data.set_data("bins", x[:-1])
+
+		# set freqs
+		for sample_name in self._samples:
+			samples = self._samples[sample_name]
+			freqs, bin_edges = np.histogram(samples, bins=x)
+			data.set_data(sample_name, freqs)
+
+		return data
 
 	def _plot_default(self):
-		return _create_plot_component()
+		self.data = self._data_default()
 
+		plot = Plot(self.data)
+
+		for s_name in self._samples:
+			plot.plot(('bins',s_name), name=s_name)
+
+		plot.index_scale = 'log'
+		plot.title = 'Fermi Plot'
+		plot.padding = 50
+		plot.legend.visible = True
+
+		plot.tools.append(PanTool(plot))
+		zoom = ZoomTool(component=plot, tool_mode='box', always_on=False)
+		plot.overlays.append(zoom)
+
+		import ipdb; ipdb.set_trace()
+
+		return plot	
+
+	def _default_traits_view(self):
+		return View(
+			VGroup(
+				Item('plot', editor=ComponentEditor(),
+					 show_label=False),
+				resizable=True
+			)
+        )
+
+	# @on_trait_change('n_sims')
+	# def redraw_plot(self):
 
 
 if __name__ == '__main__':
@@ -189,5 +194,11 @@ if __name__ == '__main__':
 	# demo = Demo()
 	# demo.configure_traits()
 
+	# LOOKING AT SAMPLES
+	# est = db2.estimates[0]
+	# samples = est.sample()
+
+	fplot = FermiPlot(estimates=[db2.estimates[0]])
+	fplot.configure_traits()
 
 
