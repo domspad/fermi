@@ -115,6 +115,8 @@ class FermiPlot(HasTraits):
 
 	n_sims = Int(3000)
 
+	#: n_sims number of samples for each expression in each estimate
+	#: { name_estimate.expr_no : array[n_sims] }
 	_samples = Dict
 
 	estimates = Any
@@ -166,17 +168,15 @@ class FermiPlot(HasTraits):
 		zoom = ZoomTool(component=plot, tool_mode='box', always_on=False)
 		plot.overlays.append(zoom)
 
-		import ipdb; ipdb.set_trace()
-
 		return plot	
 
-	def _default_traits_view(self):
+	def default_traits_view(self):
 		return View(
 			VGroup(
 				Item('plot', editor=ComponentEditor(),
 					 show_label=False),
-				resizable=True
-			)
+			),
+			resizable=True
         )
 
 	# @on_trait_change('n_sims')
@@ -197,7 +197,6 @@ if __name__ == '__main__':
 	# LOOKING AT SAMPLES
 	# est = db2.estimates[0]
 	# samples = est.sample()
-
 	fplot = FermiPlot(estimates=[db2.estimates[0]])
 	fplot.configure_traits()
 
