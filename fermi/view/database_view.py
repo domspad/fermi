@@ -4,6 +4,7 @@ from traitsui.api import View, Item, ModelView, OKCancelButtons, TableEditor, Ob
 
 from fermi.model.database import Database, load_pickle
 from fermi.model.fermi_plot import FermiPlot
+from fermi.view.add_estimate_dialog import AddEstimateDialog
 
 # class Database_Handler(Handler):
 
@@ -73,12 +74,30 @@ class DatabaseView(HasTraits):
 
 		return view
 
+	def _add_button_fired(self, event):
+		print "add dialog opening"
+		add_dialog = AddEstimateDialog()
+		ok = add_dialog.edit_traits(kind='modal')
+		if ok:
+			estimate = add_dialog.create_estimate()
+			self.model.estimates.append(estimate)
+			print "new estimate added!"
+		else:
+			print "no new estimate created!"
+			pass
+
 	def _save_button_fired(self, event):
-		# self.model.pickle()
+		self.model.pickle()
 		print "Database saved to file"
 
 	def _delete_button_fired(self, event):
-		print "Deleting selected item"
+		if len(self._selected_indices) != 0:
+			rows = set([r for r,c in self._selected_indices])
+			for ii in rows:
+				estimate = self.model.estimates.pop(ii)
+				print "Deleting estimate {}".format(estimate.name)
+		else:
+			print "Select something to delete"
 
 	def _edit_button_fired(self, event):
 		print "view-defined button fired"

@@ -32,7 +32,7 @@ class Estimate(HasTraits):
 
 
 from traits.api import Instance
-from traitsui.api import View, VGroup, Item
+from traitsui.api import View, VGroup, Item, OKCancelButtons
 
 class EstimateView(HasTraits):
 
@@ -44,7 +44,8 @@ class EstimateView(HasTraits):
 			VGroup(
 				Item('object.model.name'),
 				Item('object.model.expr'),
-			)
+			),
+			buttons=OKCancelButtons
 		)
 
 
@@ -55,7 +56,8 @@ if __name__ == '__main__':
 	e_view = EstimateView(model=e)
 
 
-	e_view.configure_traits()
+	res = e_view.configure_traits()
+	import ipdb; ipdb.set_trace()
 
 	print e._clean_expr, e._variable_list
 	# print eval(e._clean_expr, e._variables)
