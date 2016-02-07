@@ -9,12 +9,9 @@ Make sure you have the Canopy virtualenv sourced (otherwise GUI toolkits won't b
 source /Users/<home>/Library/Enthought/Canopy_64bit/User/bin/activate
 ```
 
-Once cloned, just run `python fermi_script.py` from top directory
-
-for a specific view:
+Make sure you have `qt4` set as the default toolkit:
 
 	`export ETS_TOOLKIT=qt4`
 
-	from the top directory (top `fermi/`) run the following in ipython
+Once cloned, just run `python fermi_script.py` from top directory
 
-			`run -m fermi.view.database_view`
