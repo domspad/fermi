@@ -11,7 +11,3 @@ if __name__ == '__main__':
 	view = DatabaseView(model=db)
 
 	view.configure_traits()
-
-	fplot = FermiPlot(estimates=[db.estimates[0]])
-
-	fplot.configure_traits()

@@ -1,8 +1,9 @@
 
-from traits.api import HasTraits, Instance, Button 
+from traits.api import HasTraits, Instance, Button, List
 from traitsui.api import View, Item, ModelView, OKCancelButtons, TableEditor, ObjectColumn, Action, Handler, Menu, HGroup
 
-from fermi.model.database import Database, load_pickle, EstimateProxy, VariableProxy
+from fermi.model.database import Database, load_pickle
+from fermi.model.fermi_plot import FermiPlot
 
 # class Database_Handler(Handler):
 
@@ -39,6 +40,8 @@ class DatabaseView(HasTraits):
 	delete_button = Button(label='Delete')
 	plot_button = Button(label='Plot')
 
+	_selected_indices = List
+
 	def default_traits_view(self):
 		
 		estimates_table_ed = TableEditor(
@@ -47,9 +50,13 @@ class DatabaseView(HasTraits):
 			],
 			# menu = Menu(handler.do_edit_selected),
 			auto_size=True,
+			selection_mode='rows',
+			selected_indices='_selected_indices',
 			editable=False, 	#Can still select rows BUT not add them
 			# row_factory=True #allows you to "Add new item"
 		)
+
+		self.table_ed = estimates_table_ed
 
 		view = View(
 			Item('object.model.estimates',editor=estimates_table_ed),
@@ -75,6 +82,16 @@ class DatabaseView(HasTraits):
 
 	def _edit_button_fired(self, event):
 		print "view-defined button fired"
+
+	def _plot_button_fired(self, event):
+		if len(self._selected_indices) != 0:
+			rows = set([r for r,c in self._selected_indices])
+			selected_estimates = [self.model.estimates[ii] for ii in rows]
+			fplot = FermiPlot(estimates=selected_estimates)
+			fplot.configure_traits()
+		else:
+			print "please select at least one row"
+
 
 if __name__ == '__main__':
 
