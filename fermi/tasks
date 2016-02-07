@@ -1,0 +1,24 @@
+
+tasks
+
+
+- button functionality of database
+	save db
+X		call model.save_to_file
+		accelerator "cmd+S"
+	delete item
+???		get selected
+		accelerator "cmd+delete"
+	add item
+		begin modal add/edit view
+		if OK returned:
+			add object to database
+	edit item
+		get selected
+		begin modal edit view
+		if OK returned:
+			replace object in database
+	plot
+		get selected
+		pass "data" to plotting service
+

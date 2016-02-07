@@ -1,83 +1,61 @@
 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-from math import log10, floor
+import re
 
-def round_sig(x, sig=2):
-	return round(x, sig-int(floor(log10(x)))-1)
+from traits.api import HasTraits, Str, Dict, Float, Property, List
 
-class Estimate:
-	"""
-	name
-	units
-	component_dict
-	expression
-	num_runs
-	source
-	actual
-	"""
+VAR_NAME_PATTERN = re.compile(ur'\$[\w_]+')
 
-	def __init__(self, name='', var_name='a', component_dict=None, expression_str='2',actual=100, source='www.blah.com', **kwargs):
-		self.name = name
-		self.var_name = var_name
-		self.expression_str = expression_str
-		self.actual = actual
-		self.source = source
-		self.component_dict = component_dict
+class Estimate(HasTraits):
 
-	def sample(self):
-		namespace = {name: comp.sample() for (name,comp) in self.component_dict.items()}
-		return eval(self.expression_str, namespace)
+	name = Str
 
-	def simulate(self, num_runs):
-		"""
-		sets self.data to be list of results from 'num_runs' worth of simulations
-		"""
-		self.data = pd.Series([self.sample() for ii in xrange(num_runs)])
+	#: vars marked with '$' and will parse
+	expr = Str
 
-	def get_posterior(self):
-		"""
-		returns f:Real --> [0,1] function based on data (kernel density?)
-		"""
-		# set data if not already there
-		if getattr(self,'data') is None:
-			self.simulate(self.num_runs)
-		# interpolate!
-		f = lambda x: np.random.rand()
-		return f
+	#: '$' removed from expr
+	_clean_expr = Property(depends_on='expr')
 
-	def plot(self):
-		"""
-		returns a plot of self
-		"""
-		fig, ax = plt.subplots()
-		MIN, MAX = min(self.data), max(self.data)
-		res = self.data.hist(ax=ax,bins = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), 50))
-		# from ipdb import set_trace;set_trace()
-		ax.set_xscale('log')
-		median = round_sig(self.data.median())
-		ax.set_title(self.name)
-		ax.axvline(median)
-		ax.axvline(self.actual,color='red')
-		plt.annotate('median: {}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
-		# ylow,yhigh = ax.get_ylim()
-		# xlow,xhigh = ax.get_xlim()
-		# yan = ylow + (0.85*(yhigh - ylow))
-		# xan = xlow + (0.25*(xhigh - xlow))
-		# ax.annotate('median: {}'.format(median), xy=(median, yan), xytext=(xan,yan),
-		# 			arrowprops=dict(facecolor='black', shrink=0.05))
+	# FIXME: Later we will want this to populate itself from expression
+	_variable_list = Property(List(Str),depends_on='expr')
 
-		fig, ax = plt.subplots()
-		self.data.plot(ax=ax,kind='kde',logx=True)
-		ax.set_title(self.name)
-		ax.axvline(self.data.median())
-		ax.axvline(self.actual,color='red')
-		plt.annotate('median: {}\nactual: {}'.format(median,self.actual), xy=(0.05, 0.95), xycoords='axes fraction')
-		# ylow,yhigh = ax.get_ylim()
-		# xlow,xhigh = ax.get_xlim()
-		# yan = ylow + (0.85*(yhigh - ylow))
-		# xan = xlow + (0.25*(xhigh - xlow))
-		# ax.annotate('actual: {}'.format(self.actual), xy=(self.actual, yan), xytext=(xan,yan),
-		# 			arrowprops=dict(facecolor='black', shrink=0.05))
-		plt.show(block=True)
+	# _variable_dict = Property(Dict(Str,Float),depends_on='_variable_list')
+
+	def _get__clean_expr(self):
+		return self.expr.replace('$','')
+
+	def _get__variable_list(self):
+		var_set = set([m.group(0).replace('$','') for m in VAR_NAME_PATTERN.finditer(self.expr)])
+		return list(var_set)
+
+	# def _get__variable_dict(self):
+
+
+
+from traits.api import Instance
+from traitsui.api import View, VGroup, Item
+
+class EstimateView(HasTraits):
+
+	model = Instance(Estimate)
+
+	def default_traits_view(self):
+
+		return View(
+			VGroup(
+				Item('object.model.name'),
+				Item('object.model.expr'),
+			)
+		)
+
+
+if __name__ == '__main__':
+		
+	e = Estimate(**{'name': 'num_planes', 'expr': '1 + $a ** $another'})
+
+	e_view = EstimateView(model=e)
+
+
+	e_view.configure_traits()
+
+	print e._clean_expr, e._variable_list
+	# print eval(e._clean_expr, e._variables)

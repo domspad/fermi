@@ -1,0 +1,26 @@
+[
+	{
+		"name": "num_airplanes",
+		"expressions": [
+			"55 * num_ppl / num_airports",
+			"60 / num_airports * num_states"
+		],
+		"variables": [
+			{
+			    "name" : "num_ppl",
+				"low": 100,
+				"high": 1000
+			},
+			{
+				"name": "num_airports",
+				"low": 20,
+				"high": 1000
+			},
+			{
+				"name": "num_states",
+				"low": 30,
+				"high": 300
+			}
+		]
+	}
+]

@@ -1,0 +1,7 @@
+{"name": "number of man-months to develop Microsoft Word",
+		  "var_name": "microsoft_word_man_months",
+		  "expression_str": "kbi_man_months * fact_more_word_funcs * fact_low_code * fact_complexity_nonlin",
+		  "actual": 3000,
+		  "source": "https://www.quora.com/How-many-lines-of-code-is-Microsoft-Excel",
+		  "notes": "excel probly ~ 10 million LOC -- probly similar, http://www.pcmag.com/article2/0,2817,2418117,00.asp, with 4 apps, Word is probly ~10 million in C, so if Google IS 2 Billion https://docs.google.com/spreadsheets/d/1s9u0uprmuJvwR2fkRqxJ4W5Wfomimmk9pwGTK4Dn_UI/edit?pref=2&pli=1#gid=5, maybe 1000x long --> 10,000 full lives!"
+}

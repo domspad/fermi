@@ -1,36 +1,13 @@
 
-# import csv
-import pandas as pd
-import os
-import json
+from fermi.model.database import load_pickle
+from fermi.model.fermi_plot import FermiPlot
+from fermi.view.database_view import DatabaseView
 
-from fermi.model.component import Component
-from fermi.model.estimate import Estimate
 
-FNAME = 'num_cars_sold'
+if __name__ == '__main__':
 
-INPUT_FILE = os.path.abspath('.') + '/fermi/data/' + FNAME + '.csv'
-INPUT_FILE_ESTIMATE = os.path.abspath('.') + '/fermi/data/' + FNAME + '.json'
+	db = load_pickle()
 
-# read in components
-with open(INPUT_FILE, 'r') as f:
-	df = pd.read_csv(f)
-	data = df.to_dict(orient='records')
-components = {c['var']:Component(**c) for c in data}
+	view = DatabaseView(model=db)
 
-# read in estimate
-with open(INPUT_FILE_ESTIMATE, 'r') as f:
-	indata = json.load(f)
-	indata['component_dict'] = components
-# indata = json.load{'name': 'number of people in the air at this moment',
-# 		  'var_name': 'num_ppl_in_air',
-# 		  'expression_str': '50 * airport_per_state * flight_per_airport * ppl_per_flight',
-# 		  'component_dict': components,
-# 		  'actual': 100000,
-# 		  'source': 'www.google.com'}
-estimate = Estimate(**indata)
-
-# run simulations
-estimate.simulate(num_runs=1000)
-# make a plot of the simulations
-estimate.plot()
+	view.configure_traits()
