@@ -1,12 +1,17 @@
 
 from fermi.model.database import load_pickle
 from fermi.model.fermi_plot import FermiPlot
+from fermi.view.database_view import DatabaseView
 
 
 if __name__ == '__main__':
 
-	db2 = load_pickle()
+	db = load_pickle()
 
-	fplot = FermiPlot(estimates=[db2.estimates[0]])
+	view = DatabaseView(model=db)
+
+	view.configure_traits()
+
+	fplot = FermiPlot(estimates=[db.estimates[0]])
 
 	fplot.configure_traits()

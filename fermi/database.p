@@ -32,7 +32,7 @@ list
 p14
 (lp15
 g0
-(cfermi.model.database
+(cfermi.model.estimate_proxy
 EstimateProxy
 p16
 tp17
@@ -47,7 +47,7 @@ g12
 g14
 (lp21
 g0
-(cfermi.model.database
+(cfermi.model.variable_proxy
 VariableProxy
 p22
 tp23

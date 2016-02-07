@@ -67,7 +67,7 @@ class DatabaseView(HasTraits):
 		return view
 
 	def _save_button_fired(self, event):
-		self.model.pickle()
+		# self.model.pickle()
 		print "Database saved to file"
 
 	def _delete_button_fired(self, event):
