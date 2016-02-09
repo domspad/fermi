@@ -40,7 +40,7 @@ class AddEstimateDialog(HasTraits):
 		view = View(
 			VGroup(
 				Item('name'),
-				Item('expressions'),
+				Item('expressions', style='text'),
 				Item('variables',
 					 show_label=False,
 					 editor=variable_table_editor),

@@ -100,7 +100,10 @@ class DatabaseView(HasTraits):
 			print "Select something to delete"
 
 	def _edit_button_fired(self, event):
-		print "view-defined button fired"
+		# ensure only one highlighted (or use right-click)
+		# create view and populate with this model
+		# once return if 'OK' replace the original estimate else discard
+		pass
 
 	def _plot_button_fired(self, event):
 		if len(self._selected_indices) != 0:
