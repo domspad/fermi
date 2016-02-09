@@ -103,6 +103,21 @@ class DatabaseView(HasTraits):
 		# ensure only one highlighted (or use right-click)
 		# create view and populate with this model
 		# once return if 'OK' replace the original estimate else discard
+		if len(self._selected_indices) == 1:
+			row, _  = self._selected_indices[0]
+			estimate = self.model.estimates[row]
+			print "editing {}".format(estimate.name)
+			kws = {}
+			kws['name'] = estimate.name
+			kws['expressions'] = estimate.expressions[:]
+			kws['variables'] = estimate.variables[:]
+			add_dialog = AddEstimateDialog(**kws)
+			ok = add_dialog.edit_traits(kind='modal')
+			if ok:
+				new_estimate = add_dialog.create_estimate()
+				self.model.estimates[row] = new_estimate
+		else:
+			print "Select only one row to edit"
 		pass
 
 	def _plot_button_fired(self, event):

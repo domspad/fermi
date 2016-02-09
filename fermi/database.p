@@ -242,7 +242,7 @@ sg27
 Vheight
 p90
 sg29
-F3.0
+F3.5
 sbag0
 (g22
 tp91
