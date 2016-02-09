@@ -111,6 +111,7 @@ class DatabaseView(HasTraits):
 			kws['name'] = estimate.name
 			kws['expressions'] = estimate.expressions[:]
 			kws['variables'] = estimate.variables[:]
+			kws['estimate_notes'] = estimate.notes
 			add_dialog = AddEstimateDialog(**kws)
 			ok = add_dialog.edit_traits(kind='modal')
 			if ok:

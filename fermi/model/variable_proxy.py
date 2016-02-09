@@ -7,6 +7,7 @@ class VariableProxy(HasTraits):
 	name = Str
 	high = Float
 	low = Float
+	notes = Str
 
 	def sample(self, n=1):
 		left, right = self.low, self.high

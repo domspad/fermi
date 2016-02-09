@@ -12,8 +12,9 @@ from fermi.model.variable_proxy import VariableProxy
 variable_table_editor = TableEditor(
 	columns = [
 		ObjectColumn(name='name'),
-		ObjectColumn(name='high'),
 		ObjectColumn(name='low'),
+		ObjectColumn(name='high'),
+		ObjectColumn(name='notes'),
 	],
 	deletable=True,
 	sort_model=True,
@@ -33,6 +34,8 @@ class AddEstimateDialog(HasTraits):
 
 	variables = List(VariableProxy)
 
+	estimate_notes = Str
+
 	valid_button = Button(label='Validate')
 
 	def default_traits_view(self):
@@ -44,6 +47,7 @@ class AddEstimateDialog(HasTraits):
 				Item('variables',
 					 show_label=False,
 					 editor=variable_table_editor),
+				Item('estimate_notes', style='text'),
 				Item('valid_button',
 					 show_label=False),
 			),
@@ -58,6 +62,7 @@ class AddEstimateDialog(HasTraits):
 		estimate.name = self.name
 		estimate.expressions = self.expressions
 		estimate.variables = self.variables
+		estimate.notes = self.estimate_notes
 		return estimate
 
 	def _valid_button_fired(self, event):

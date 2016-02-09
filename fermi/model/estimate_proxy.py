@@ -10,6 +10,9 @@ class EstimateProxy(HasTraits):
 	expressions = List(Str)
 	variables = List(Instance(VariableProxy))
 
+	# random notes user can make about estimate
+	notes = Str
+
 	def sample(self, n=1, expression_no=0):
 		# defaults to sampling first expression
 
