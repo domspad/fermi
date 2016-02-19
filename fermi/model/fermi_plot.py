@@ -8,7 +8,7 @@ from traits.api import HasTraits, Instance, Int, Dict, List, Any, Str
 from traitsui.api import Item, Group, View, VGroup
 # Chaco imports
 from chaco.api import ArrayPlotData, Plot
-from chaco.tools.api import PanTool, ZoomTool
+from chaco.tools.api import PanTool, ZoomTool, RangeSelection, RangeSelectionOverlay
 
 COLORS = ['red', 'blue', 'green', 'orange']
 
@@ -76,12 +76,15 @@ class FermiPlot(HasTraits):
 					   bgcolor='white',
 					   render_style='hold') # render_style determines whether interpolate
 
+		plot.index = plot._get_or_create_datasource('bins') #set index name manually so range selection works
 		plot.index_scale = 'log'
 		plot.title = 'Fermi Plot'
 		plot.padding = 50
 		plot.legend.visible = True
 
 		plot.tools.append(PanTool(plot))
+		plot.active_tool = RangeSelection(plot, left_button_selects=True)
+		plot.overlays.append(RangeSelectionOverlay(component=plot))
 		zoom = ZoomTool(component=plot, tool_mode='box', always_on=False)
 		plot.overlays.append(zoom)
 
