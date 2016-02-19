@@ -55,7 +55,9 @@ class FermiPlot(HasTraits):
 		for sample_name in self._samples:
 			samples = self._samples[sample_name]
 			freqs, bin_edges = np.histogram(samples, bins=x)
-			data.set_data(sample_name, freqs)
+			probs = freqs / float(self.n_sims)
+			import ipdb; ipdb.set_trace()
+			data.set_data(sample_name, probs)
 
 		return data
 
