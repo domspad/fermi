@@ -10,6 +10,8 @@ from traitsui.api import Item, Group, View, VGroup
 from chaco.api import ArrayPlotData, Plot
 from chaco.tools.api import PanTool, ZoomTool
 
+COLORS = ['red', 'blue', 'green', 'orange']
+
 
 class FermiPlot(HasTraits):
 
@@ -62,8 +64,14 @@ class FermiPlot(HasTraits):
 
 		plot = Plot(self.data)
 
-		for s_name in self._samples:
-			plot.plot(('bins',s_name), name=s_name)
+		for ii, s_name in enumerate(self._samples):
+			color = COLORS[ii % len(self._samples)]
+			plot.plot(('bins',s_name), name=s_name,
+					   type='filled_line',
+					   edge_color=color,
+					   face_color=color,
+					   alpha=0.5,
+					   bgcolor='white')
 
 		plot.index_scale = 'log'
 		plot.title = 'Fermi Plot'
