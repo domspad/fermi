@@ -71,7 +71,8 @@ class FermiPlot(HasTraits):
 					   edge_color=color,
 					   face_color=color,
 					   alpha=0.5,
-					   bgcolor='white')
+					   bgcolor='white',
+					   render_style='hold') # render_style determines whether interpolate
 
 		plot.index_scale = 'log'
 		plot.title = 'Fermi Plot'
