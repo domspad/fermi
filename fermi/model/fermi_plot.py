@@ -21,7 +21,7 @@ class FermiPlot(HasTraits):
 
 	n_bins = Int(50)
 
-	n_sims = Int(3000)
+	n_sims = Int(10000)
 
 	#: n_sims number of samples for each expression in each estimate
 	#: { name_estimate.expr_no : array[n_sims] }
@@ -56,7 +56,6 @@ class FermiPlot(HasTraits):
 			samples = self._samples[sample_name]
 			freqs, bin_edges = np.histogram(samples, bins=x)
 			probs = freqs / float(self.n_sims)
-			import ipdb; ipdb.set_trace()
 			data.set_data(sample_name, probs)
 
 		return data
@@ -83,7 +82,7 @@ class FermiPlot(HasTraits):
 		plot.legend.visible = True
 
 		plot.tools.append(PanTool(plot))
-		plot.active_tool = RangeSelection(plot, left_button_selects=True)
+		plot.active_tool = RangeSelection(plot)
 		plot.overlays.append(RangeSelectionOverlay(component=plot))
 		zoom = ZoomTool(component=plot, tool_mode='box', always_on=False)
 		plot.overlays.append(zoom)
