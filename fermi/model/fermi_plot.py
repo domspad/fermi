@@ -19,7 +19,7 @@ class FermiPlot(HasTraits):
 
 	data = ArrayPlotData
 
-	n_bins = Int(50)
+	n_bins = Int(100)
 
 	n_sims = Int(10000)
 
@@ -40,7 +40,7 @@ class FermiPlot(HasTraits):
 		return _samples
 
 	def _get_minmax(self):
-		return 10 ** 0, 10 ** 6
+		return 10 ** 0, 10 ** 9
 
 	def _data_default(self):
 		data = ArrayPlotData()
