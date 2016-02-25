@@ -40,7 +40,7 @@ class FermiPlot(HasTraits):
 		return _samples
 
 	def _get_minmax(self):
-		return 10 ** 0, 10 ** 9
+		return 10 ** 0, 10 ** 12
 
 	def _data_default(self):
 		data = ArrayPlotData()
