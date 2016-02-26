@@ -918,7 +918,7 @@ g20
 sbsg5
 g6
 sg30
-V1,895 m3 OR 1,735 m3 (if was all water density) http://space.stackexchange.com/questions/2491/how-much-fuel-was-used-for-a-space-shuttle-launch    https://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation  http://www.nasa.gov/centers/kennedy/about/information/shuttle_faq.html
+Vhttp://space.stackexchange.com/questions/2491/how-much-fuel-was-used-for-a-space-shuttle-launch\u000a\u000a\u000a2 main parts for liftoff\u000a	http://www.nasa.gov/returntoflight/system/index.html\u000aspace shuttle	\u000a	SRBs == 564 m3\u000a		1,000,000 kg fuel (APCP) (both rockets combined)\u000a			https://en.wikipedia.org/wiki/Space_Shuttle_Solid_Rocket_Booster#Propellant\u000a		1772 kg/m3 (water is 1000kg/m3)\u000a			http://www.lr.tudelft.nl/en/organisation/departments/space-engineering/space-systems-engineering/expertise-areas/space-propulsion/design-of-elements/rocket-propellants/solids/\u000a\u000a	External tank == 2000 m3\u000a		LOX\u000a			629340 kg\u000a			1.140 g/cc\u000a			552 m3\u000a		LH2\u000a			106261 kg\u000a			0.071 g/cc\u000a			1518 m3\u000a			http://www.astronautix.com/props/loxlh2.htm\u000a\u000aTOTAL ~2564 m3 of fuel\u000a	~1735601 kg of fuel\u000a	
 p300
 sg32
 g12
