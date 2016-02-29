@@ -8,7 +8,9 @@ from traits.api import HasTraits, Instance, Int, Dict, List, Any, Str
 from traitsui.api import Item, Group, View, VGroup
 # Chaco imports
 from chaco.api import ArrayPlotData, Plot
-from chaco.tools.api import PanTool, ZoomTool
+from chaco.tools.api import PanTool, ZoomTool, RangeSelection, RangeSelectionOverlay
+
+COLORS = ['red', 'blue', 'green', 'orange']
 
 
 class FermiPlot(HasTraits):
@@ -17,9 +19,9 @@ class FermiPlot(HasTraits):
 
 	data = ArrayPlotData
 
-	n_bins = Int(50)
+	n_bins = Int(100)
 
-	n_sims = Int(3000)
+	n_sims = Int(10000)
 
 	#: n_sims number of samples for each expression in each estimate
 	#: { name_estimate.expr_no : array[n_sims] }
@@ -38,22 +40,25 @@ class FermiPlot(HasTraits):
 		return _samples
 
 	def _get_minmax(self):
-		return 10 ** 0, 10 ** 6
+		"Determines minimum and maximum bin exponent from sample data"
+		all_samples = np.concatenate(self._samples.values())
+		s_min, s_max = min(all_samples), max(all_samples)
+		return int(np.log10(s_min)), int(np.log10(s_max)) + 1
 
 	def _data_default(self):
 		data = ArrayPlotData()
 		
 		# set bins
-			# take MIN, MAX of samples as max
-		MIN, MAX = self._get_minmax()
-		x = 10 ** np.linspace(np.log10(MIN), np.log10(MAX), self.n_bins)
+		min_bin, max_bin = self._get_minmax()
+		x = 10 ** np.linspace(min_bin, max_bin, self.n_bins)
 		data.set_data("bins", x[:-1])
 
 		# set freqs
 		for sample_name in self._samples:
 			samples = self._samples[sample_name]
 			freqs, bin_edges = np.histogram(samples, bins=x)
-			data.set_data(sample_name, freqs)
+			probs = freqs / float(self.n_sims)
+			data.set_data(sample_name, probs)
 
 		return data
 
@@ -62,15 +67,25 @@ class FermiPlot(HasTraits):
 
 		plot = Plot(self.data)
 
-		for s_name in self._samples:
-			plot.plot(('bins',s_name), name=s_name)
+		for ii, s_name in enumerate(self._samples):
+			color = COLORS[ii % len(self._samples)]
+			plot.plot(('bins',s_name), name=s_name,
+					   type='filled_line',
+					   edge_color=color,
+					   face_color=color,
+					   alpha=0.5,
+					   bgcolor='white',
+					   render_style='hold') # render_style determines whether interpolate
 
+		plot.index = plot._get_or_create_datasource('bins') #set index name manually so range selection works
 		plot.index_scale = 'log'
 		plot.title = 'Fermi Plot'
 		plot.padding = 50
 		plot.legend.visible = True
 
 		plot.tools.append(PanTool(plot))
+		plot.active_tool = RangeSelection(plot)
+		plot.overlays.append(RangeSelectionOverlay(component=plot))
 		zoom = ZoomTool(component=plot, tool_mode='box', always_on=False)
 		plot.overlays.append(zoom)
 
