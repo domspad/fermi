@@ -78,7 +78,7 @@ class DatabaseView(HasTraits):
 		print "add dialog opening"
 		add_dialog = AddEstimateDialog()
 		ok = add_dialog.edit_traits(kind='modal')
-		if ok:
+		if ok.result:
 			estimate = add_dialog.create_estimate()
 			self.model.estimates.append(estimate)
 			print "new estimate added!"
