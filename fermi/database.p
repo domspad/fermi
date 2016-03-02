@@ -1098,7 +1098,7 @@ g20
 sbsg5
 g6
 sg30
-VToday, there are 2.8 million Girl Scouts www.girlscouts.org/who_we_are/facts/
+VToday, there are 2.8 million Girl Scouts www.girlscouts.org/who_we_are/facts/  US population\u000a	319.8 million\u000agoogle.com\u000a\u000aDistribution\u000a	5-15 yrs old -- 13.3% (girls: \u000a\u000ahttps://www.census.gov/population/age/data/2012comp.html
 p358
 sg32
 g12

@@ -2,11 +2,12 @@
 A dialog that will allow the user to specify a new estimate
 """
 
-from traits.api import HasTraits, Str, List, Button
+from traits.api import HasTraits, Str, List, Button, on_trait_change
 from traitsui.api import OKCancelButtons, View, Group,VGroup, Item, TableEditor, ObjectColumn
 
 from fermi.model.estimate_proxy import EstimateProxy
 from fermi.model.variable_proxy import VariableProxy
+from fermi.utils.str_utils import get_var_names
 
 
 variable_table_editor = TableEditor(
@@ -70,6 +71,26 @@ class AddEstimateDialog(HasTraits):
 		# check valid expression
 		# check all variables defined
 		print "checking estimate!"
+		self._update_variables_names()
+
+	@on_trait_change('expressions')
+	def _update_variables_names(self):
+		"""
+		Add Variable Proxy instance to variables for every new variable name
+		found in expressions
+		"""
+		print 'updating variable names!'
+		variable_names = list()
+		current_variable_names = [var.name for var in self.variables]
+
+		for expr in self.expressions:
+			expr_names = get_var_names(expr)
+			for name in expr_names:
+				if name in variable_names or name in current_variable_names:
+					continue
+				else:
+					new_var = VariableProxy(name=name)
+					self.variables.append(new_var)
 
 
 if __name__ == '__main__':
