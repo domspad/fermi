@@ -3,7 +3,7 @@ A dialog that will allow the user to specify a new estimate
 """
 
 from traits.api import HasTraits, Str, List, Button, on_trait_change
-from traitsui.api import OKCancelButtons, View, Group,VGroup, Item, TableEditor, ObjectColumn
+from traitsui.api import OKCancelButtons, View, Group,VGroup, Item, TableEditor, ObjectColumn, ListStrEditor, HGroup
 
 from fermi.model.estimate_proxy import EstimateProxy
 from fermi.model.variable_proxy import VariableProxy
@@ -37,20 +37,25 @@ class AddEstimateDialog(HasTraits):
 
 	estimate_notes = Str
 
-	valid_button = Button(label='Validate')
+	add = Button('Add Expression')
+
+	clear = Button('Clear Expressions')
+
+	validate = Button('Validate')
 
 	def default_traits_view(self):
 
 		view = View(
 			VGroup(
 				Item('name'),
-				Item('expressions', style='text'),
+				Item('expressions', style='text', editor=ListStrEditor(auto_add=True)),
+				HGroup(
+					Item('add', show_label=False),
+					Item('clear', show_label=False),
+					Item('validate', show_label=False)),
 				Item('variables',
-					 show_label=False,
 					 editor=variable_table_editor),
 				Item('estimate_notes', style='text'),
-				Item('valid_button',
-					 show_label=False),
 			),
 			buttons=OKCancelButtons,
 			resizable=True
@@ -66,7 +71,13 @@ class AddEstimateDialog(HasTraits):
 		estimate.notes = self.estimate_notes
 		return estimate
 
-	def _valid_button_fired(self, event):
+	def _add_fired(self):
+		self.expressions.append('#ADD EXPRESSION')
+
+	def _clear_fired(self):
+		self.expressions = []
+
+	def _validate_fired(self, event):
 		# check valid name
 		# check valid expression
 		# check all variables defined
