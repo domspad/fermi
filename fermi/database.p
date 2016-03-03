@@ -1327,7 +1327,7 @@ g20
 sbsg5
 g6
 sg30
-Vaccording to estimate ~3KB pop, 500KB classical
+Vroughly 200: 1 relative storage of mp3 to sheet music so 10MB moonlight sonata ~ 50KB pretty accurate!https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwihwZjAzqTLAhWinYMKHSXOChsQFggdMAA&url=http%3A%2F%2Fhomes.soic.indiana.edu%2Fdonbyrd%2FINFO545Site-Spring07%2FMusicRepresentation.ppt&usg=AFQjCNEV6qaBBC5l99E4Ns9Fynl6nivUiA&sig2=zfKq1DW3x0V0K8iiL8uh0A according to estimate ~3KB pop, 500KB classical
 p428
 sg32
 g12
