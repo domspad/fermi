@@ -1,5 +1,7 @@
 # fermi
 
+![image](https://cloud.githubusercontent.com/assets/7263654/16785899/a9afb67a-485e-11e6-8e52-5d6df622f2a8.png)
+
 A program to make fermi problems eaiser and more vivid
 
 ### How to run
